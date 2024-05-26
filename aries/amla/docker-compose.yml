@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: amla
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - von_von
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin-console
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8085:80"
+    depends_on:
+      - mysql
+    volumes:
+      - ./phpmyadmin:/etc/phpmyadmin/
+    networks:
+      - von_von
+
+  flask-api:
+    build: 
+      context: ./flask-api
+      dockerfile: Dockerfile
+    container_name: flask-api
+    ports:
+      - "8095:5000"
+    depends_on:
+      - mysql
+    networks:
+      - von_von
+
+
+  # python-app2:
+  #     build:
+  #       context: ./python-app2
+  #       dockerfile: Dockerfile
+  #     container_name: python-app2
+  #     networks:
+  #       - von_von
+  #     command: ["python", "app2.py"]  # Command to run the Python application app2.py
+
+
+networks: 
+  von_von:
+    driver: bridge

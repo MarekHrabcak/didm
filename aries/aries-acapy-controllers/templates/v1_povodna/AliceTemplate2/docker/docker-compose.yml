@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    agent-template5:
+        command: ['alice --port 8130 --aip 10']
+        build:
+            context: ../../AliceFaberAcmeDemo/aries-cloudagent-python
+            dockerfile: ./docker/Dockerfile.demo
+        ports:
+            - 8130-8137:8130-8137
+        networks:
+            - von_von
+        environment:
+            - RUNMODE=${RUNMODE}
+            - DOCKERHOST=${DOCKERHOST}
+            - LEDGER_URL=${LEDGER_URL}
+            - GENESIS_URL=${GENESIS_URL}
+        tty: true
+networks:
+  von_von:
+    external: true

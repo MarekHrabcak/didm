@@ -1,0 +1,61 @@
+{
+    "userAttributes": {
+      "given_name": "Janko",
+      "family_name": "Hraško",
+      "birth_date": "0101200",
+      "birth_city": "Bratislava",
+      "birth_country": "Slovakia",
+      "personalIdentificationNumber": "010120001234",
+      "gender": "Male",
+      "nationality": "Slovak",
+      "resident_street": "Hrachová",
+      "resident_house_number": "1",
+      "resident_city": "Bratislava",
+      "resident_postal_code": "Bratislava",
+      "resident_country": "Slovakia",
+      "identityCardIssueDate": "01012000",
+      "identityCardIssuePlace" : "Bratislava",
+      "identityCardExpiration": "01012000",
+      "identityCardNumber": "SK123123",
+      "degreeTitle": "Mgr.",
+      "degreeSchool": "Faber University",
+      "timestamp": "191239129319"
+    },
+    "verifiableCredentials": [
+      {
+        "type": "given_name",
+        "value": "Janko",
+        "verified": true
+      },
+      {
+        "type": "driverLicense",
+        "value": "DL123456",
+        "verified": true
+      },
+      {
+        "type": "passport",
+        "value": "P123456",
+        "verified": false
+      }
+    ]
+  }
+
+given_name, family_name, birth_date, birth_city, birth_country, personalIdentificationNumber, gender, nationality, resident_street, resident_house_number, resident_city, resident_postal_code, resident_country, identityCardIssueDate, identityCardIssuePlace, identityCardExpiration, identityCardNumber, degreeTitle, degreeSchool, timestamp
+
+
+
+
+--------------------------------------
+|  Agent CLI Menu:                   |
+|  1. Print active connections       |
+|  2. Create a credential definition |
+|  3. Send a cerdential offer        |
+|  E: Exit                           |
+--------------------------------------
+        
+>2
+Schema name: user-schema            
+Comma divided attributes (attr1, attr2, attr3, ...): given_name, family_name, birth_date, birth_city, birth_country, personalIdentificationNumber, gender, nationality, resident_street, resident_house_number, resident_city, resident_postal_code, resident_country, identityCardIssueDate, identityCardIssuePlace, identityCardExpiration, identityCardNumber, degreeTitle, degreeSchool
+Schema version [default: auto-increment]: 
+Created schema PUHXQzXfMgj12L6PBjo6qp:2:user-schema:1.0, version 1.0
+Created credential definition with id: PUHXQzXfMgj12L6PBjo6qp:3:CL:119:default

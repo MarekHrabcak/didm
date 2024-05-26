@@ -1,0 +1,53 @@
+#
+# to use this, run `docker-compose up` in the directory holding this gist.
+# or wget/curl the file and pipe it into `docker-compose up`
+#
+
+version: "3.5"
+volumes:
+  postgres_data:
+    driver: local
+services:
+  postgres:
+    image: postgres:15.1
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - von_von
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: 1234
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.5
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_DATABASE: keycloak
+      KC_DB_USER: keycloak
+      KC_DB_SCHEMA: public
+      KC_DB_PASSWORD: 1234
+      KEYCLOAK_LOGLEVEL: DEBUG
+      ROOT_LOGLEVEL: DEBUG
+      JAVA_OPTS_APPEND: -Dcom.redhat.fips=false
+    ports:
+      - "8090:8090"
+      - "8787:8787"
+    depends_on: 
+      - postgres
+    hostname: keycloak
+    networks:
+      - von_von
+    volumes:
+      - ./build/libs:/opt/keycloak/providers
+    entrypoint: sh /opt/keycloak/bin/kc.sh start-dev --debug -Dcom.redhat.fips=false --http-port=8090
+
+
+networks:
+  von_von:
+    external: true

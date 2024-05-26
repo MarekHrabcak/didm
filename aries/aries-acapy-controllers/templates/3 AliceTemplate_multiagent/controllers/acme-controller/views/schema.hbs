@@ -1,0 +1,20 @@
+{{> component_nav moreNavLinks=navLinks}}
+
+<div class="content">
+    {{!-- <select class="custom-select custom-select-lg mb-3">
+        <option selected disabled value="">Select a Schema</option>
+        {{#each schemas}}
+        <option value={{this}}>{{this}}</option>
+        {{/each}}
+    </select> --}}
+    {{#if schemas}}
+    <div class = "card-columns">
+        {{#each schemas}}
+        {{> schema_card schema=this}}
+        {{/each}}
+    </div>
+    {{else}}
+    {{> empty_list}}
+    {{/if}}
+
+</div>

@@ -1,0 +1,4 @@
+fastapi
+hypercorn[trio]
+python-keycloak
+python-jose

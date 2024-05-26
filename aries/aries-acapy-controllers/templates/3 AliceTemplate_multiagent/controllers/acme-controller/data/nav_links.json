@@ -1,0 +1,18 @@
+[
+    {
+        "label": "Connections",
+        "url": "/connections"
+    },
+    {
+        "url": "/credentials",
+        "label": "Credentials"
+    },
+    {
+        "label": "CredentialSchemas",
+        "url": "/schemas"
+    },
+    {
+        "label": "Credential Definitions",
+        "url": "/definitions"
+    }
+]

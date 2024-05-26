@@ -1,0 +1,63 @@
+<nav id="nav" class="navbar sticky-top">
+    <span class="navbar-brand mb-0 h1" id="username"></span>
+    {{!-- {{#if status}}
+    {{#eq status "up"}}
+    <div class="status status-light bg-success" role="status"></div>
+    {{/eq}}
+    {{#eq status "down"}}
+    <div class="status status-light bg-danger" role="status"></div>
+    {{/eq}}
+    {{/if}} --}}
+    <button id="logout">
+        Log out
+    </button>
+    <div id="statusLight" class="spinner-grow text-light" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</nav>
+
+<style>
+    .status-light {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        margin: 0.5rem;
+        box-shadow: 0px 0px 2px inset white;
+    }
+</style>
+
+<script>
+
+    window.onkeycloakloaded.push(() => {
+        document.getElementById('username').textContent = window.keycloak.tokenParsed.preferred_username   
+        document.getElementById('nav').style.backgroundColor = window.keycloak.tokenParsed.nco;
+    })
+
+    document.getElementById('logout').onclick = () => {
+        window.keycloak.logout()
+    }
+
+    window.onkeycloakloaded.push(function () {
+        const status = document.querySelector('#statusLight');
+
+        fetch('/status')
+            .then((response) => {
+                return response.json();
+            })
+            .then((respons) => {
+                status.classList.add('status-light');
+                status.classList.remove('spinner-grow');
+                if (respons.status === 'up') {
+                    status.classList.add('bg-success');
+                } else {
+                    status.classList.add('bg-danger');
+                }
+            })
+            .catch(e => {
+                status.classList.add('status-light');
+                status.classList.add('bg-danger');
+                status.classList.remove('spinner-grow');
+            });
+    });
+
+</script>

@@ -1,0 +1,7 @@
+{
+    "realm": "master",
+    "auth-server-url": "http://keycloak:8090",
+    "resource": "agent",
+    "public-client": true,
+    "confidential-port": 0
+}

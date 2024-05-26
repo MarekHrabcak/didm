@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  reverse_proxy:
+    build:
+      context: '.'
+      dockerfile: 'Dockerfile'
+    # environment:
+    #   - KEYCLOAK_HOST=keycloak
+    ports:
+      - "8080:8080"
+    networks:
+      - von_von
+
+networks:
+  von_von:
+    external: true

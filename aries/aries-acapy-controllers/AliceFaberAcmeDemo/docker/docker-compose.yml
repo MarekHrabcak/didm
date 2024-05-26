@@ -1,0 +1,127 @@
+version: '3'
+
+services:
+    # Agents
+    faber-agent:
+        command: ['faber --port 8020 --aip 10']
+        build:
+            context: ../aries-cloudagent-python
+            dockerfile: ./docker/Dockerfile.demo
+        ports:
+            - 8020-8027:8020-8027
+        networks:
+            - von_von
+        # network_mode: host
+        environment:
+            - RUNMODE=${RUNMODE}
+            - DOCKERHOST=${DOCKERHOST}
+            - LEDGER_URL=${LEDGER_URL}
+            - GENESIS_URL=${GENESIS_URL}
+        tty: true
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    alice-agent:
+        command: ['alice --port 8030 --aip 10']
+        build:
+            context: ../aries-cloudagent-python
+            dockerfile: ./docker/Dockerfile.demo
+        ports:
+            - 8030-8037:8030-8037
+        networks:
+            - von_von
+        # network_mode: host
+        environment:
+            - RUNMODE=${RUNMODE}
+            - DOCKERHOST=${DOCKERHOST}
+            - LEDGER_URL=${LEDGER_URL}
+            - GENESIS_URL=${GENESIS_URL}
+        tty: true
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    aml-agent:
+        command: ['alice --port 8030 --aip 10']
+        build:
+            context: ../aries-cloudagent-python
+            dockerfile: ./docker/Dockerfile.demo
+        ports:
+            - 8050-8057:8030-8037
+        networks:
+            - von_von
+        # network_mode: host
+        environment:
+            - RUNMODE=${RUNMODE}
+            - DOCKERHOST=${DOCKERHOST}
+            - LEDGER_URL=${LEDGER_URL}
+            - GENESIS_URL=${GENESIS_URL}
+        tty: true
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    acme-agent:
+        command: ['acme --port 8040 --aip 10']
+        build:
+            context: ../aries-cloudagent-python
+            dockerfile: ./docker/Dockerfile.demo
+        ports:
+            - 8040-8047:8040-8047
+        networks:
+            - von_von
+        # network_mode: host
+        environment:
+            - RUNMODE=${RUNMODE}
+            - DOCKERHOST=${DOCKERHOST}
+            - LEDGER_URL=${LEDGER_URL}
+            - GENESIS_URL=${GENESIS_URL}
+        tty: true
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    # Controllers
+    faber-controller:
+        build:
+            context: ../controllers/faber-controller/
+        ports:
+            - 9021:8080
+        networks:
+            - von_von
+        # network_mode: host
+        depends_on:
+            - faber-agent
+        environment:
+            - RUNMODE=${RUNMODE}
+            - FABER_AGENT_HOST=host.docker.internal
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    alice-controller:
+        build:
+            context: ../controllers/alice-controller/
+            args:
+                - RUNMODE=${RUNMODE}
+                - ALICE_AGENT_HOST=localhost
+        ports:
+            - 9031:80
+        networks:
+            - von_von
+        # network_mode: host
+        depends_on:
+            - alice-agent
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    acme-controller:
+        build:
+            context: ../controllers/acme-controller/
+        ports:
+            - 9041:3000
+        networks:
+            - von_von
+        # network_mode: host
+        depends_on:
+            - acme-agent
+        environment:
+            - RUNMODE=${RUNMODE}
+            - ACME_AGENT_HOST=host.docker.internal
+            # - ACME_AGENT_HOST=${ACME_AGENT_HOST}
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+networks:
+  von_von:
+    external: true

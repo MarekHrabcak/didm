@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class NavLink {\n  constructor(label, url) {\n    this.label = label || '';\n    this.url = url || '/';\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
